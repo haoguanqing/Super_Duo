@@ -18,6 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import it.jaschke.alexandria.api.Callback;
 import it.jaschke.alexandria.services.BookService;
 
@@ -39,6 +42,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
+
+    private static final String LOG_TAG = "DEBUG LOG TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,18 +187,25 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         super.onBackPressed();
     }
 
-    //codes for barcode scanner
-    public void scanQRCode(View v) {
-        IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
-        integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
+    private void showDialog(int title, CharSequence message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton(R.string.ok_button, null);
+        builder.show();
     }
 
+
+    //codes for embedded barcode scanner
+    //added by Guanqing on 2015/09/06
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult result =
                 IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        //Log.e(LOG_TAG, "got result from IntentIntegrator");
         if (result != null) {
             String contents = result.getContents();
+            //Log.e(LOG_TAG, "result contents: " + contents);
             if (contents != null) {
                 //Once we have an ISBN, start a book intent
                 Intent bookIntent = new Intent(this, BookService.class);
@@ -212,13 +224,4 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             }
         }
     }
-
-    private void showDialog(int title, CharSequence message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton(R.string.ok_button, null);
-        builder.show();
-    }
-
 }
