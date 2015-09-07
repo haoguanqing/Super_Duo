@@ -1,6 +1,5 @@
 package it.jaschke.alexandria;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,11 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-
 import it.jaschke.alexandria.api.Callback;
-import it.jaschke.alexandria.services.BookService;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {
@@ -38,12 +33,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private CharSequence title;
     public static boolean IS_TABLET = false;
     private BroadcastReceiver messageReciever;
-    private Toast toast;
 
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
-
-    private static final String LOG_TAG = "DEBUG LOG TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,9 +154,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private class MessageReciever extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getStringExtra(MESSAGE_KEY)!=null){
-                toast = Toast.makeText(MainActivity.this, intent.getStringExtra(MESSAGE_KEY), Toast.LENGTH_LONG);
-                toast.show();
+            if(intent.getStringExtra(MESSAGE_KEY)!=null && !this.isOrderedBroadcast()){
+                Toast.makeText(MainActivity.this, intent.getStringExtra(MESSAGE_KEY), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -185,43 +176,5 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             finish();
         }
         super.onBackPressed();
-    }
-
-    private void showDialog(int title, CharSequence message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton(R.string.ok_button, null);
-        builder.show();
-    }
-
-
-    //codes for embedded barcode scanner
-    //added by Guanqing on 2015/09/06
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult result =
-                IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        //Log.e(LOG_TAG, "got result from IntentIntegrator");
-        if (result != null) {
-            String contents = result.getContents();
-            //Log.e(LOG_TAG, "result contents: " + contents);
-            if (contents != null) {
-                //Once we have an ISBN, start a book intent
-                Intent bookIntent = new Intent(this, BookService.class);
-                bookIntent.putExtra(BookService.EAN, contents);
-                bookIntent.setAction(BookService.FETCH_BOOK);
-                this.startService(bookIntent);
-
-                if (toast==null){
-                    toast = Toast.makeText(this,getResources().getString(R.string.found),Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-
-            } else {
-                showDialog(R.string.result_failed,
-                        getString(R.string.result_failed_why));
-            }
-        }
     }
 }
