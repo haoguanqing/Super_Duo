@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.BookService;
@@ -25,6 +28,8 @@ import it.jaschke.alexandria.services.DownloadImage;
 
 
 public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String LOG_TAG = "DEBUG LOG TAG";
+
     private static final String TAG = "INTENT_TO_SCAN_ACTIVITY";
     private EditText ean;
     public static final int LOADER_ID = 1;
@@ -88,10 +93,10 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         rootView.findViewById(R.id.scan_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //codes for embedded barcode scanner
-                //added by Guanqing on 2015/09/06
-                new IntentIntegrator(getActivity()).initiateScan();
+                //add by Guanqing on 2015/09/06
+                IntentIntegrator.forSupportFragment(getFragmentManager().findFragmentById(R.id.container)).initiateScan();
+                //add end
             }
         });
 
@@ -120,6 +125,27 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 
         return rootView;
     }
+
+    //codes for embedded barcode scanner
+    //add by Guanqing on 2015/09/06
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult result =
+                IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        Log.e(LOG_TAG, "got result from IntentIntegrator");
+        if (result != null) {
+            String contents = result.getContents();
+            if (contents != null) {
+                //Once we have an ISBN, start a book intent
+                Log.e(LOG_TAG, "result contents: " + contents);
+                ean.setText(contents);
+
+            } else {
+                Toast.makeText(getActivity(), getResources().getString(R.string.scan_failed), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    //add end
 
     public void restartLoader(){
         getLoaderManager().restartLoader(LOADER_ID, null, this);

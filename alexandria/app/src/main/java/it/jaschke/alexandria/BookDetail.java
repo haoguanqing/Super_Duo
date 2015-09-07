@@ -60,11 +60,20 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
                 bookIntent.setAction(BookService.DELETE_BOOK);
                 getActivity().startService(bookIntent);
                 getActivity().getSupportFragmentManager().popBackStack();
+
+                //add by Guanqing on 2015/09/06
+                //fix the bug: the book remains in the list after deletion
+                restartLoader();
             }
         });
         return rootView;
     }
 
+    //add by Guanqing on 2015/09/06
+    //fix the bug: the book remains in the list after deletion
+    public void restartLoader(){
+        getLoaderManager().restartLoader(LOADER_ID, null, this);
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
