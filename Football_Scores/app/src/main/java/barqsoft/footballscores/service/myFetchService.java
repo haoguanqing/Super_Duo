@@ -63,7 +63,7 @@ public class myFetchService extends IntentService
             URL fetch = new URL(fetch_build.toString());
             m_connection = (HttpURLConnection) fetch.openConnection();
             m_connection.setRequestMethod("GET");
-            m_connection.addRequestProperty("X-Auth-Token","e136b7858d424b9da07c88f28b61989a");
+            m_connection.addRequestProperty("X-Auth-Token",getString(R.string.Football_API_key));
             m_connection.connect();
 
             // Read the input stream into a String
@@ -135,24 +135,24 @@ public class myFetchService extends IntentService
     private void processJSONdata (String JSONdata,Context mContext, boolean isReal)
     {
         //JSON data
-        final String SERIE_A = "357";
-        final String PREMIER_LEGAUE = "354";
-        final String CHAMPIONS_LEAGUE = "362";
-        final String PRIMERA_DIVISION = "358";
-        final String BUNDESLIGA = "351";
-        final String SEASON_LINK = "http://api.football-data.org/alpha/soccerseasons/";
-        final String MATCH_LINK = "http://api.football-data.org/alpha/fixtures/";
-        final String FIXTURES = "fixtures";
-        final String LINKS = "_links";
-        final String SOCCER_SEASON = "soccerseason";
-        final String SELF = "self";
-        final String MATCH_DATE = "date";
-        final String HOME_TEAM = "homeTeamName";
-        final String AWAY_TEAM = "awayTeamName";
-        final String RESULT = "result";
-        final String HOME_GOALS = "goalsHomeTeam";
-        final String AWAY_GOALS = "goalsAwayTeam";
-        final String MATCH_DAY = "matchday";
+        final String SERIE_A = getString(R.string.JSON_SERIE_A);
+        final String PREMIER_LEGAUE = getString(R.string.JSON_PREMIER_LEGAUE);
+        final String CHAMPIONS_LEAGUE = getString(R.string.JSON_CHAMPIONS_LEAGUE);
+        final String PRIMERA_DIVISION = getString(R.string.JSON_PRIMERA_DIVISION);
+        final String BUNDESLIGA = getString(R.string.JSON_BUNDESLIGA);
+        final String SEASON_LINK = getString(R.string.JSON_SEASON_LINK);
+        final String MATCH_LINK = getString(R.string.JSON_MATCH_LINK);
+        final String FIXTURES = getString(R.string.JSON_FIXTURES);
+        final String LINKS = getString(R.string.JSON_LINKS);
+        final String SOCCER_SEASON = getString(R.string.JSON_SOCCER_SEASON);
+        final String SELF = getString(R.string.JSON_SELF);
+        final String MATCH_DATE = getString(R.string.JSON_MATCH_DATE);
+        final String HOME_TEAM = getString(R.string.JSON_HOME_TEAM);
+        final String AWAY_TEAM = getString(R.string.JSON_AWAY_TEAM);
+        final String RESULT = getString(R.string.JSON_RESULT);
+        final String HOME_GOALS = getString(R.string.JSON_HOME_GOALS);
+        final String AWAY_GOALS = getString(R.string.JSON_AWAY_GOALS);
+        final String MATCH_DAY = getString(R.string.JSON_MATCH_DAY);
 
         //Match data
         String League = null;
