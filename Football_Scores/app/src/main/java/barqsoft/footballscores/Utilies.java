@@ -1,5 +1,7 @@
 package barqsoft.footballscores;
 
+import android.content.Context;
+
 /**
  * Created by yehya khaled on 3/3/2015.
  */
@@ -10,16 +12,17 @@ public class Utilies
     public static final int CHAMPIONS_LEAGUE = 362;
     public static final int PRIMERA_DIVISION = 358;
     public static final int BUNDESLIGA = 351;
+    private static Context mContext = App.context();
     public static String getLeague(int league_num)
     {
         switch (league_num)
         {
-            case SERIE_A : return "Seria A";
-            case PREMIER_LEGAUE : return "Premier League";
-            case CHAMPIONS_LEAGUE : return "UEFA Champions League";
-            case PRIMERA_DIVISION : return "Primera Division";
-            case BUNDESLIGA : return "Bundesliga";
-            default: return "Not known League Please report";
+            case SERIE_A : return mContext.getString(R.string.seriaa);
+            case PREMIER_LEGAUE : return mContext.getString(R.string.premierleague);
+            case CHAMPIONS_LEAGUE : return mContext.getString(R.string.champions_league);
+            case PRIMERA_DIVISION : return mContext.getString(R.string.primeradivison);
+            case BUNDESLIGA : return mContext.getString(R.string.bundesliga);
+            default: return mContext.getString(R.string.NOT_KNOWN_LEAGUE);
         }
     }
     public static String getMatchDay(int match_day,int league_num)
@@ -28,23 +31,23 @@ public class Utilies
         {
             if (match_day <= 6)
             {
-                return "Group Stages, Matchday : 6";
+                return mContext.getString(R.string.group_stage_text);
             }
             else if(match_day == 7 || match_day == 8)
             {
-                return "First Knockout round";
+                return mContext.getString(R.string.first_knockout_round);
             }
             else if(match_day == 9 || match_day == 10)
             {
-                return "QuarterFinal";
+                return mContext.getString(R.string.quarter_final);
             }
             else if(match_day == 11 || match_day == 12)
             {
-                return "SemiFinal";
+                return mContext.getString(R.string.semi_final);
             }
             else
             {
-                return "Final";
+                return mContext.getString(R.string.final_text);
             }
         }
         else

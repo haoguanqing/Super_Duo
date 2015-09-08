@@ -75,13 +75,24 @@ public class scoresAdapter extends CursorAdapter
             Button share_button = (Button) v.findViewById(R.id.share_button);
             share_button.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     //add Share Action
-                    context.startActivity(createShareForecastIntent(mHolder.home_name.getText()+" "
-                    +mHolder.score.getText()+" "+mHolder.away_name.getText() + " "));
+                    context.startActivity(createShareForecastIntent(mHolder.home_name.getText() + " "
+                            + mHolder.score.getText() + " " + mHolder.away_name.getText() + " "));
                 }
             });
+
+            //add by Guanqing on 2015/09/08
+            mHolder.home_name.setContentDescription(cursor.getString(COL_HOME));
+            mHolder.away_name.setContentDescription(cursor.getString(COL_AWAY));
+            mHolder.date.setContentDescription(cursor.getString(COL_MATCHTIME));
+            mHolder.score.setContentDescription(Utilies.getScores(cursor.getInt(COL_HOME_GOALS), cursor.getInt(COL_AWAY_GOALS)));
+            mHolder.home_crest.setContentDescription("Crest for "+cursor.getString(COL_HOME));
+            mHolder.away_crest.setContentDescription("Crest for "+cursor.getString(COL_AWAY));
+
+            match_day.setContentDescription(Utilies.getMatchDay(cursor.getInt(COL_MATCHDAY), cursor.getInt(COL_LEAGUE)));
+            league.setContentDescription(Utilies.getLeague(cursor.getInt(COL_LEAGUE)));
+            //add end
         }
         else
         {
