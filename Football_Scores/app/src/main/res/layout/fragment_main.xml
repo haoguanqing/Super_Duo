@@ -13,7 +13,7 @@
     android:paddingStart="@dimen/activity_horizontal_margin"
     android:paddingEnd="@dimen/activity_horizontal_margin"
     android:layout_marginStart="@dimen/list_horizonal_matgin"
-    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+    android:layout_marginEnd="@dimen/list_horizonal_matgin"
 
     tools:context=".MainActivity$PlaceholderFragment">
         <ListView
