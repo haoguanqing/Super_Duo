@@ -34,7 +34,7 @@ public class DatabaseContract
 
         public static Uri buildScoreWithLeague()
         {
-            return BASE_CONTENT_URI.buildUpon().appendPath("league").build();
+            return BASE_CONTENT_URI.buildUpon().appendPath(LEAGUE_COL).build();
         }
         public static Uri buildScoreWithId()
         {
@@ -42,7 +42,7 @@ public class DatabaseContract
         }
         public static Uri buildScoreWithDate()
         {
-            return BASE_CONTENT_URI.buildUpon().appendPath("date").build();
+            return BASE_CONTENT_URI.buildUpon().appendPath(DATE_COL).build();
         }
     }
     //URI data

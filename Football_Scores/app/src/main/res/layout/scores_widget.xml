@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="@dimen/widget_margin"
+    android:background="#999999">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/widget_height"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="@dimen/widget_height"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:src="@drawable/arsenal"
+            android:padding="@dimen/widget_margin"
+            android:contentDescription="@string/widget_home_crest"
+            android:id="@+id/home_crest" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/widget_scores"
+            android:contentDescription="@string/widget_scores"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/score_textview" />
+
+        <ImageView
+            android:layout_width="@dimen/widget_height"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/widget_margin"
+            android:contentDescription="@string/widget_away_crest"
+            android:src="@drawable/chelsea"
+            android:id="@+id/away_crest" />
+
+    </LinearLayout>
+
+</RelativeLayout>
