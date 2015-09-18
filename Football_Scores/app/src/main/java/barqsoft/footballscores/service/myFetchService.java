@@ -48,9 +48,9 @@ public class myFetchService extends IntentService
     private void getData (String timeFrame)
     {
         //Creating fetch URL
-        final String BASE_URL = getString(R.string.BASE_URL); //Base URL
-        final String QUERY_TIME_FRAME = getString(R.string.QUERY_TIME_FRAME); //Time Frame parameter to determine days
-        //final String QUERY_MATCH_DAY = "matchday";
+        final String BASE_URL = "http://api.football-data.org/alpha/fixtures"; //Base URL
+        final String QUERY_TIME_FRAME = "timeFrame"; //Time Frame parameter to determine days
+        final String QUERY_MATCH_DAY = "matchday";
 
         Uri fetch_build = Uri.parse(BASE_URL).buildUpon().
                 appendQueryParameter(QUERY_TIME_FRAME, timeFrame).build();
@@ -62,8 +62,8 @@ public class myFetchService extends IntentService
         try {
             URL fetch = new URL(fetch_build.toString());
             m_connection = (HttpURLConnection) fetch.openConnection();
-            m_connection.setRequestMethod(getString(R.string.REQUEST_METHOD));
-            m_connection.addRequestProperty(getString(R.string.REQUEST_PROPERTY),getString(R.string.API_KEY));
+            m_connection.setRequestMethod("GET");
+            m_connection.addRequestProperty("X-Auth-Token",getString(R.string.API_KEY));
             m_connection.connect();
 
             // Read the input stream into a String
@@ -91,7 +91,7 @@ public class myFetchService extends IntentService
         }
         catch (Exception e)
         {
-            Log.e(LOG_TAG,"Exception here" + e.getMessage());
+            Log.e(LOG_TAG,"No Internet Connection: " + e.getMessage());
         }
         finally {
             if(m_connection != null)
@@ -135,11 +135,15 @@ public class myFetchService extends IntentService
     private void processJSONdata (String JSONdata,Context mContext, boolean isReal)
     {
         //JSON data
-        final String SERIE_A = "357";
-        final String PREMIER_LEGAUE = "354";
-        final String CHAMPIONS_LEAGUE = "362";
-        final String PRIMERA_DIVISION = "358";
-        final String BUNDESLIGA = "351";
+        final String SERIE_A = "401";
+        final String PREMIER_LEGAUE = "398";
+        final String CHAMPIONS_LEAGUE = "405";
+        final String PRIMERA_DIVISION = "399";
+        final String BUNDESLIGA1 = "394";
+        final String BUNDESLIGA2 = "395";
+        final String SEGUNDA_DIVISION = "400";
+        final String LIGUE1 = "396";
+        final String LIGUE2 = "397";
         final String SEASON_LINK = "http://api.football-data.org/alpha/soccerseasons/";
         final String MATCH_LINK = "http://api.football-data.org/alpha/fixtures/";
         final String FIXTURES = "fixtures";
@@ -181,7 +185,11 @@ public class myFetchService extends IntentService
                 if(     League.equals(PREMIER_LEGAUE)      ||
                         League.equals(SERIE_A)             ||
                         League.equals(CHAMPIONS_LEAGUE)    ||
-                        League.equals(BUNDESLIGA)          ||
+                        League.equals(BUNDESLIGA1)         ||
+                        League.equals(BUNDESLIGA2)         ||
+                        League.equals(SEGUNDA_DIVISION)    ||
+                        League.equals(LIGUE1)              ||
+                        League.equals(LIGUE2)              ||
                         League.equals(PRIMERA_DIVISION)     )
                 {
                     match_id = match_data.getJSONObject(LINKS).getJSONObject(SELF).
