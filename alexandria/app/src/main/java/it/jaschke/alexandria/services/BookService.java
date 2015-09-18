@@ -130,6 +130,10 @@ public class BookService extends IntentService {
             bookJsonString = buffer.toString();
         } catch (Exception e) {
             Log.e(LOG_TAG, "Error ", e);
+            //show no network error
+            Intent intent = new Intent(MainActivity.MESSAGE_EVENT);
+            intent.putExtra(MainActivity.MESSAGE_KEY, getString(R.string.no_network));
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();

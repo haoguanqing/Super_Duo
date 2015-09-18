@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="4dp"
-    android:background="@drawable/list_item"
-    >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="@dimen/widget_margin"
+    android:background="@android:color/transparent">
+
     <LinearLayout
-        android:orientation="horizontal" android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
+        android:id="@+id/widget_container"
         >
         <LinearLayout
             android:layout_width="0dp"
@@ -19,6 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:src="@drawable/no_icon"
                 android:id="@+id/home_crest"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -38,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="@string/test_text"
+                android:text="@string/widget_scores"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="@dimen/Score"
@@ -61,6 +62,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/no_icon"
                 android:layout_gravity="center"
                 android:id="@+id/away_crest"/>
             <TextView
@@ -73,11 +75,5 @@
                 android:id="@+id/away_name"/>
         </LinearLayout>
     </LinearLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/details_fragment_container">
-    </FrameLayout>
-</LinearLayout>
 
-
+</RelativeLayout>

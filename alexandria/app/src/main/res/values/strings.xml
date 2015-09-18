@@ -31,4 +31,5 @@
     The original version of this app was built by Sascha Jaschke. App was modified by Guanqing Hao to add barcode scanning functionality and fix errors. </string>
 
     <string name="scan_failed">Scan failed</string>
+    <string name="no_network">No Network</string>
 </resources>
