@@ -3,6 +3,7 @@ package barqsoft.footballscores;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,24 +23,23 @@ public class ScoresWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         final int N = appWidgetIds.length;
-
-
-        for (int i = 0; i < N; i++) {
-            showFirstMatchResult(context);
-
-            updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
-        }
+        RemoteViews resultViews = firstMatchResultView(context);
+        ComponentName widgetName = new ComponentName(context,ScoresWidget.class);
+        appWidgetManager.updateAppWidget(widgetName, resultViews);
     }
 
-    private void showFirstMatchResult(Context context){
+    private RemoteViews firstMatchResultView(Context context){
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.scores_widget);
         views.setTextViewText(R.id.score_textview, " - ");
         views.setImageViewResource(R.id.home_crest, R.drawable.no_icon);
         views.setImageViewResource(R.id.away_crest, R.drawable.no_icon);
 
         Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setOnClickPendingIntent(R.id.widget_container, pendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        views.setOnClickPendingIntent(R.id.home_crest, pendingIntent);
+        views.setOnClickPendingIntent(R.id.away_crest, pendingIntent);
+        views.setOnClickPendingIntent(R.id.score_textview, pendingIntent);
+        views.setOnClickPendingIntent(R.id.time_textview, pendingIntent);
 
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -66,8 +66,12 @@ public class ScoresWidget extends AppWidgetProvider {
             int homeScore = cursor.getInt(cursor.getColumnIndex(DatabaseContract.scores_table.HOME_GOALS_COL));
             int awayScore = cursor.getInt(cursor.getColumnIndex(DatabaseContract.scores_table.AWAY_GOALS_COL));
             views.setTextViewText(R.id.score_textview, Utilies.getScores(homeScore, awayScore));
+
+            views.setTextViewText(R.id.time_textview, cursor.getString(cursor.getColumnIndex(DatabaseContract.scores_table.TIME_COL)));
         }
         cursor.close();
+
+        return views;
     }
 
     @Override
