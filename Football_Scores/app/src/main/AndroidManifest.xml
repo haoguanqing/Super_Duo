@@ -54,7 +54,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/scores_widget_info" />
+                android:resource="@xml/score_widget_info" />
         </receiver>
     </application>
 
