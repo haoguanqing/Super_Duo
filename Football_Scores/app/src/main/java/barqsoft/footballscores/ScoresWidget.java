@@ -42,7 +42,7 @@ public class ScoresWidget extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.time_textview, pendingIntent);
 
         Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat(context.getString(R.string.date_format_ymd), Locale.getDefault());
         String[] arg = new String[1];
         arg[0] = format.format(date);
         Cursor cursor = context.getContentResolver().query(

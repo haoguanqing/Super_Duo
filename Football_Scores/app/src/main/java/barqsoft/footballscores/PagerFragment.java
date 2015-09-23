@@ -33,7 +33,7 @@ public class PagerFragment extends Fragment
         for (int i = 0;i < NUM_PAGES;i++)
         {
             Date fragmentdate = new Date(System.currentTimeMillis()+((i-2)*86400000));
-            SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat mformat = new SimpleDateFormat(getString(R.string.date_format_ymd));
             viewFragments[i] = new MainScreenFragment();
             viewFragments[i].setFragmentDate(mformat.format(fragmentdate));
         }
@@ -87,7 +87,7 @@ public class PagerFragment extends Fragment
                 Time time = new Time();
                 time.setToNow();
                 // Otherwise, the format is just the day of the week (e.g "Wednesday".
-                SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
+                SimpleDateFormat dayFormat = new SimpleDateFormat(getString(R.string.date_format_eeee));
                 return dayFormat.format(dateInMillis);
             }
         }
