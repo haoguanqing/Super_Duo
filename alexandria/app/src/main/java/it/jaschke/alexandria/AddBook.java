@@ -40,7 +40,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 
     private String mScanFormat = "Format:";
     private String mScanContents = "Contents:";
-
+    private String validEan = "";
 
     public AddBook(){
     }
@@ -74,12 +74,14 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             public void afterTextChanged(Editable s) {
                 String ean =s.toString();
                 //catch isbn10 numbers
+                //debug: crashes when click cancel after deleting/adding several digits
                 if(ean.length()==10 && !ean.startsWith("978")){
                     ean="978"+ean;
-                }
-                if(ean.length()<13){
+                    validEan = ean;
                     clearFields();
-                    return;
+                }else if(ean.length()==13){
+                    validEan = ean;
+                    clearFields();
                 }
                 //Once we have an ISBN, start a book intent
                 Intent bookIntent = new Intent(getActivity(), BookService.class);
@@ -111,7 +113,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             @Override
             public void onClick(View view) {
                 Intent bookIntent = new Intent(getActivity(), BookService.class);
-                bookIntent.putExtra(BookService.EAN, ean.getText().toString());
+                bookIntent.putExtra(BookService.EAN, validEan);
                 bookIntent.setAction(BookService.DELETE_BOOK);
                 getActivity().startService(bookIntent);
                 ean.setText("");
